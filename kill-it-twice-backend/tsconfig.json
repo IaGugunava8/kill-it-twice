@@ -1,0 +1,52 @@
+{
+  "compilerOptions": {
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "resolvePackageJsonExports": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "ES2023",
+    "baseUrl": ".",
+    "paths": {
+      "@app/contracts": ["libs/contracts/src"],
+      "@app/database": ["libs/database/src"],
+      "@app/observability": ["libs/observability/src"]
+    },
+    "sourceMap": true,
+    "outDir": "./dist",
+    "incremental": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "strictPropertyInitialization": false,
+    "types": [
+      "vitest/globals",
+      "node"
+    ]
+  },
+  "files": [],
+  "references": [
+    {
+      "path": "./apps/api/tsconfig.app.json"
+    },
+    {
+      "path": "./apps/worker/tsconfig.app.json"
+    },
+    {
+      "path": "./apps/consumer/tsconfig.app.json"
+    },
+    {
+      "path": "./libs/contracts/tsconfig.lib.json"
+    },
+    {
+      "path": "./libs/database/tsconfig.lib.json"
+    },
+    {
+      "path": "./libs/observability/tsconfig.lib.json"
+    }
+  ]
+}
