@@ -22,13 +22,25 @@ services:
       - "127.0.0.1:${POSTGRES_PORT:-15432}:5432"
     volumes:
       - postgres-data:/var/lib/postgresql/data
-      - ../db/migrations:/docker-entrypoint-initdb.d:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
       interval: 5s
       timeout: 5s
       retries: 12
     restart: unless-stopped
+    networks: [replication]
+
+  migrator:
+    image: postgres:16.15-alpine@sha256:cf78e76683b9ca8c5733cbbdce6c9262b45b6767934dd0a95e671f9a0fc20685
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-optio}:${POSTGRES_PASSWORD:-optio-local}@postgres:5432/${POSTGRES_DB:-optio}
+    volumes:
+      - ../db/migrations:/migrations:ro
+      - ../db/run-migrations.sh:/run-migrations.sh:ro
+    entrypoint: ["sh", "/run-migrations.sh"]
+    depends_on:
+      postgres: { condition: service_healthy }
+    restart: "no"
     networks: [replication]
 
   rabbitmq:
@@ -84,7 +96,7 @@ services:
     ports:
       - "127.0.0.1:${API_PORT:-3000}:3000"
     depends_on:
-      postgres: { condition: service_healthy }
+      migrator: { condition: service_completed_successfully }
       rabbitmq: { condition: service_healthy }
       elasticsearch: { condition: service_healthy }
     healthcheck:
@@ -102,7 +114,7 @@ services:
     ports:
       - "127.0.0.1:${WORKER_PORT:-3001}:3001"
     depends_on:
-      postgres: { condition: service_healthy }
+      migrator: { condition: service_completed_successfully }
       rabbitmq: { condition: service_healthy }
       elasticsearch: { condition: service_healthy }
     healthcheck:
@@ -120,7 +132,7 @@ services:
     ports:
       - "127.0.0.1:${CONSUMER_PORT:-3002}:3002"
     depends_on:
-      postgres: { condition: service_healthy }
+      migrator: { condition: service_completed_successfully }
       rabbitmq: { condition: service_healthy }
     healthcheck:
       test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3002/health').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"]

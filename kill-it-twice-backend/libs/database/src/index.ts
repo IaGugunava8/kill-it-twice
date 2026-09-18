@@ -3,3 +3,5 @@ export const DATABASE_SCHEMAS = {
   pipeline: 'pipeline',
   consumer: 'consumer',
 } as const;
+
+export * from './pipeline.repository.js';

@@ -4,7 +4,8 @@
     "composite": true,
     "declaration": true,
     "rootDir": "./src",
-    "outDir": "../../dist/libs/database"
+    "outDir": "../../dist/libs/database",
+    "tsBuildInfoFile": "../../dist/libs/database/tsconfig.lib.tsbuildinfo"
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist", "**/*spec.ts"]

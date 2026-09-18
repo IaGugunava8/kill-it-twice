@@ -13,20 +13,18 @@
     "target": "ES2023",
     "baseUrl": ".",
     "paths": {
-      "@app/contracts": ["libs/contracts/src"],
-      "@app/database": ["libs/database/src"],
-      "@app/observability": ["libs/observability/src"]
+      "@app/contracts": ["libs/contracts/src/index.ts"],
+      "@app/database": ["libs/database/src/index.ts"],
+      "@app/observability": ["libs/observability/src/index.ts"]
     },
     "sourceMap": true,
     "outDir": "./dist",
     "incremental": true,
     "skipLibCheck": true,
+    "ignoreDeprecations": "6.0",
     "strict": true,
     "strictPropertyInitialization": false,
-    "types": [
-      "vitest/globals",
-      "node"
-    ]
+    "types": ["vitest/globals", "node"]
   },
   "files": [],
   "references": [

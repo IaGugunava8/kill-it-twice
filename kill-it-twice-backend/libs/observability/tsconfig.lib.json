@@ -4,7 +4,8 @@
     "composite": true,
     "declaration": true,
     "rootDir": "./src",
-    "outDir": "../../dist/libs/observability"
+    "outDir": "../../dist/libs/observability",
+    "tsBuildInfoFile": "../../dist/libs/observability/tsconfig.lib.tsbuildinfo"
   },
   "references": [{ "path": "../contracts/tsconfig.lib.json" }],
   "include": ["src/**/*"],

@@ -22,3 +22,18 @@ export type DeliveryState =
   | 'delivered'
   | 'superseded'
   | 'quarantined';
+
+export type SourceOperation = 'upsert' | 'delete';
+
+export interface SourceEventEnvelope {
+  schemaVersion: number;
+  eventId: string;
+  sourceSystem: string;
+  entityType: string;
+  entityId: string;
+  entityVersion: string;
+  operation: SourceOperation;
+  sourceTimestamp: string;
+  canonicalPayload: Record<string, unknown>;
+  payloadHash: string;
+}

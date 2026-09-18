@@ -19,6 +19,7 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci --omit=dev && npm cache clean --force
 COPY --from=build /app/dist ./dist
+COPY tools ./tools
 
 USER node
 CMD ["node", "dist/apps/api/main.js"]
